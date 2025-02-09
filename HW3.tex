@@ -1,0 +1,153 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[margin=1.0in]{geometry} % To set margins
+\usepackage{amsmath}  % This allows me to use the align functionality.
+                      % If you find yourself trying to replicate
+                      % something you found online, ensure you're
+                      % loading the necessary packages!
+\usepackage{amsfonts} % Math font
+\usepackage{fancyvrb}
+\usepackage{hyperref} % For including hyperlinks
+\usepackage[shortlabels]{enumitem}% For enumerated lists with labels specified
+                                  % We had to run tlmgr_install("enumitem") in R
+\usepackage{float}    % For telling R where to put a table/figure
+\usepackage{natbib}        %For the bibliography
+\bibliographystyle{apalike}%For the bibliography
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% QUESTION 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item This week's Problem of the Week in Math is described as follows:
+\begin{quotation}
+  \textit{There are thirty positive integers less than 100 that share a certain 
+  property. Your friend, Blake, wrote them down in the table to the left. But 
+  Blake made a mistake! One of the numbers listed is wrong and should be replaced 
+  with another. Which number is incorrect, what should it be replaced with, and 
+  why?}
+\end{quotation}
+The numbers are listed below.
+\begin{center}
+  \begin{tabular}{ccccc}
+    6 & 10 & 14 & 15 & 21\\
+    22 & 26 & 33 & 34 & 35\\
+    38 & 39 & 46 & 51 & 55\\
+    57 & 58 & 62 & 65 & 69\\
+    75 & 77 & 82 & 85 & 86\\
+    87 & 91 & 93 & 94 & 95
+  \end{tabular}
+\end{center}
+Use the fact that the ``certain'' property is that these numbers are all supposed
+to be the product of \emph{unique} prime numbers to find and fix the mistake that
+Blake made.\\
+\textbf{Reminder:} Code your solution in an \texttt{R} script and copy it over
+to this \texttt{.Rnw} file.\\
+\textbf{Hint:} You may find the \verb|%in%| operator and the \verb|setdiff()| function to be helpful.\\
+
+\textbf{Solution:} 
+% Write your answer and explanations here.
+
+75 is the incorrect number, and it should be replaced with the number 74. 75 is the only number in the provided list that contains a prime in its factorization twice (3x5x5). The one number missing from this list, and therefore the replacement for 75, should be 74, since it is the only missing number within the provided list's range that is the product of two unique primes (2x37).
+
+For my solution, I created a list of primes up to a specified max using a makeshift Sieve of Eratosthenes, then multiplied unique pairs of these primes to create a list of all numbers that are the products of two unique primes within the provided list's range. I then took the asymmetric difference of the provided list and my new list to determine the incorrect number, and the asymmetric difference in the opposite order to determine its replacement.
+
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Copy your solution code here.}
+
+\hldef{nums.in.list} \hlkwb{<-} \hlkwd{c}\hldef{(}\hlnum{6}\hldef{,}\hlnum{10}\hldef{,}\hlnum{14}\hldef{,}\hlnum{15}\hldef{,}\hlnum{21}\hldef{,}\hlnum{22}\hldef{,}\hlnum{26}\hldef{,}\hlnum{33}\hldef{,}\hlnum{34}\hldef{,}\hlnum{35}\hldef{,}\hlnum{38}\hldef{,}\hlnum{39}\hldef{,}\hlnum{46}\hldef{,}\hlnum{51}\hldef{,}\hlnum{55}\hldef{,}\hlnum{57}\hldef{,}\hlnum{58}\hldef{,}\hlnum{62}\hldef{,}\hlnum{65}\hldef{,}\hlnum{69}\hldef{,}\hlnum{75}\hldef{,}\hlnum{77}\hldef{,}\hlnum{82}\hldef{,}\hlnum{85}\hldef{,}\hlnum{86}\hldef{,}\hlnum{87}\hldef{,}\hlnum{91}\hldef{,}\hlnum{93}\hldef{,}\hlnum{94}\hldef{,}\hlnum{95}\hldef{)}
+\hldef{max.of.list} \hlkwb{=} \hlkwd{max}\hldef{(nums.in.list)}
+
+\hlcom{# tried a sieve of eratosthenes}
+\hldef{max.to.check} \hlkwb{<-} \hlkwd{floor}\hldef{(max.of.list}\hlopt{/}\hlnum{2}\hldef{)} \hlcom{# since 2 is the smallest prime, if a number is the product of two unique primes, }
+                                     \hlcom{# the largest possible candidate prime is at most half the list max rounded down}
+\hldef{primes} \hlkwb{<-} \hlnum{2}\hlopt{:}\hldef{max.to.check}
+\hlkwa{for}\hldef{(i} \hlkwa{in} \hlnum{2}\hlopt{:}\hldef{max.to.check)\{} \hlcom{# not maximally efficient, but rather not use primes here since it gets dynamically modified}
+  \hldef{primes} \hlkwb{<-} \hldef{primes[primes} \hlopt{==} \hldef{i} \hlopt{|} \hldef{primes} \hlopt{%%} \hldef{i} \hlopt{!=} \hlnum{0}\hldef{]} \hlcom{# first part keeps the original candidate, }
+                                                   \hlcom{# second part removes multiples of it}
+\hldef{\}}
+
+\hldef{good.nums} \hlkwb{<-} \hlkwd{rep}\hldef{(}\hlnum{0}\hldef{,}\hlkwc{times} \hldef{= max.to.check)} \hlcom{# initializing a numeric vector to hold all numbers in range }
+                                         \hlcom{# that are products of two unique primes}
+\hlkwa{for}\hldef{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hldef{(}\hlkwd{length}\hldef{(primes)}\hlopt{-}\hlnum{1}\hldef{))\{} \hlcom{# ending at index length(primes)-1 avoids out of bounds issues}
+  \hlkwa{for}\hldef{(k} \hlkwa{in} \hldef{(j}\hlopt{+}\hlnum{1}\hldef{)}\hlopt{:}\hlkwd{length}\hldef{(primes))\{} \hlcom{# starting at index j+1 excludes all squares of primes}
+    \hldef{n} \hlkwb{<-} \hldef{primes[j]}\hlopt{*}\hldef{primes[k]} \hlcom{# product of two unique primes, no duplicates since}
+                             \hlcom{# j<k is an invariant + fundamental theorem of arithmetic}
+    \hlkwa{if}\hldef{(n} \hlopt{<=} \hldef{max.of.list)\{} \hlcom{# not interested in numbers outside our given list range, also avoids index issues}
+      \hldef{good.nums[n]} \hlkwb{<-} \hldef{n;} \hlcom{# avoids having to count instances of "good nums"}
+    \hldef{\}}
+  \hldef{\}}
+\hldef{\}}
+\hldef{good.nums} \hlkwb{<-} \hldef{good.nums[}\hlkwd{which}\hldef{(good.nums} \hlopt{!=} \hlnum{0}\hldef{)]} \hlcom{# filter out the zeros at indices of "bad nums"}
+
+\hldef{(incorrect.num} \hlkwb{<-} \hlkwd{setdiff}\hldef{(nums.in.list, good.nums))} \hlcom{# s-e}
+\end{alltt}
+\begin{verbatim}
+## [1] 75
+\end{verbatim}
+\begin{alltt}
+\hldef{(replacement.num} \hlkwb{<-} \hlkwd{setdiff}\hldef{(good.nums, nums.in.list))}
+\end{alltt}
+\begin{verbatim}
+## [1] 74
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{enumerate}
+
+\bibliography{bibliography}
+\end{document}
